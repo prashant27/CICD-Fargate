@@ -1,16 +1,15 @@
 node {
     def app
 
+    /*
     stage('Clone-repository') {
-        /* Cloning the Repository to our Workspace */
 
-        checkout scm
+        //checkout scm
     }
 
     stage('Build-image') {
-        /* build image */
 
-        app = docker.build("hello-world")
+        //app = docker.build("hello-world")
     }
 
     stage('Test image') {
@@ -18,12 +17,12 @@ node {
         app.inside {
             echo "Tests passed"
         }
-    }
+    }*/
 
     stage('Push-image') {
         /*push docker images*/
         docker.withRegistry('https://440535814002.dkr.ecr.us-east-1.amazonaws.com/fargate', 'ecr:us-east-1:demo-ecr-credential') {
-            app.push("${env.BUILD_NUMBER}")
+            //app.push("${env.BUILD_NUMBER}")
             docker.image('hello-world').push('latest')
             }   
         
