@@ -21,12 +21,12 @@ node {
     }
 
     stage('Push-image') {
-        /*
-        docker.withRegistry('ecr-repository', 'ecr:region:secretID and AccessKey') {
+        /*push docker images*/
+        docker.withRegistry('440535814002.dkr.ecr.us-east-1.amazonaws.com/fargate', 'ecr:us-east-1:demo-ecr-credential') {
             app.push("${env.BUILD_NUMBER}")
             docker.image('hello-world').push('latest')
             }   
-        */
+        
 
     }
 
