@@ -22,10 +22,8 @@ node {
     stage('Push-image') {
         /*push docker images*/
                 //cleanup current user docker credentials
-        sh 'rm  ~/.dockercfg || true'
-        sh 'rm ~/.docker/config.json || true'
         
-        docker.withRegistry('https://440535814002.dkr.ecr.us-east-1.amazonaws.com/fargate', 'ecr:us-east-1:demo-ecr-credential') {
+        docker.withRegistry('https://id.dkr.ecr.us-east-1.amazonaws.com/fargate', 'ecr:us-east-1:demo-ecr-credential') {
             app.push("${env.BUILD_NUMBER}")
             docker.image('hello-world').push('latest')
             }   
