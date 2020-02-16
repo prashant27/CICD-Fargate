@@ -21,26 +21,19 @@ node {
 
     stage('Push-image') {
         /*push docker images*/
-                //cleanup current user docker credentials
-        
-        docker.withRegistry('https://id.dkr.ecr.us-east-1.amazonaws.com/fargate', 'ecr:us-east-1:demo-ecr-credential') {
-            app.push("${env.BUILD_NUMBER}")
-            docker.image('hello-world').push('latest')
-            }   
-        
+         sh("eval \$(aws ecr get-login --no-include-email  --region us-east-1| sed 's|https://||')")
 
+        sh"""
+        docker tag hello-world 440535814002.dkr.ecr.us-east-1.amazonaws.com/fargate
+        docker push 440535814002.dkr.ecr.us-east-1.amazonaws.com/fargate
+        """
     }
 
     stage('create-stack'){
         // call cloudformatio template
-        /*
-        sh """
-        $ export AWS_ACCESS_KEY_ID=?
-        $ export AWS_SECRET_ACCESS_KEY=?
-        $ export AWS_DEFAULT_REGION=us-east-1
-        aws cloudformation create-stack --stack-name fargate-vpc --template-body file://stack.yml --region 'us-east-1'
-        """
-        */
+        sh "export AWS_DEFAULT_REGION=us-east-1"
+        sh "aws cloudformation create-stack --stack-name fargate-stack --template-body file://stack.yml --region 'us-east-1' --capabilities CAPABILITY_IAM" 
+        
     }
 
 }
