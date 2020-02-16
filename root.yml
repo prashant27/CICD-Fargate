@@ -1,5 +1,0 @@
-Resources:
-  ProcessStore:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: vpc.yml
